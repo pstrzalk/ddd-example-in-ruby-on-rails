@@ -1,7 +1,5 @@
 contract_repository = CooperationNegotiation::Infrastructure::DbContractRepository.new
 
-# Yes, I know those are not valid UUIDs!
-
 client_id = '00000000-0000-0000-0000-000000000001'
 CooperationNegotiation::Application::PrepareDraftContractService.new.call(client_id: client_id)
 contract = contract_repository.of_client_id(client_id)
