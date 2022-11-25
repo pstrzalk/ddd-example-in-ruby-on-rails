@@ -68,6 +68,7 @@ module CooperationNegotiation
 
         event = Events::ContractSigned.new
         event.client_id = client_id
+        event.text = text
         event.time = Time.current
         dispatch_event(event)
       end

@@ -18,6 +18,7 @@ It implements a simple scenario (using ubiquitous languages for each of the doma
 - the contract, in its final text form, needs to be signed by the client
 - the contract, in its final text form, needs to be signed by the company
 - when both sides sign the contract, it cannot be modified further
+- signed contracts can be listed, including the text of contract and the time it has been signed
 - when the contract is signed by both sides, a party is assembled in the DragonHunt context
 
 ## Used DDD features
@@ -31,6 +32,7 @@ It implements a simple scenario (using ubiquitous languages for each of the doma
 - domain events defined as POROs
 - domain events handled synchronously and used for cross-context communication
 - factory methods defined on domain objects
+- read models
 
 ## Installation
 
@@ -49,7 +51,6 @@ rails db:seed:replant
 
 ## Future plans
 
-- I will be adding Read Models soon
 - I'm thinking about adding some controllers and frontend to show that it can operate as a normal application.
 
 ## Enjoy

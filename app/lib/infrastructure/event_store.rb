@@ -2,7 +2,8 @@ module Infrastructure
   module EventStore
     HANDLERS = {
       'CooperationNegotiation::Domain::Events::ContractSigned' => [
-        'DragonHunt::Application::Handlers::CooperationNegotiation::ContractSigned'
+        'DragonHunt::Application::Handlers::CooperationNegotiation::ContractSigned',
+        'ReadModelHandler'
       ]
     }.freeze
 
