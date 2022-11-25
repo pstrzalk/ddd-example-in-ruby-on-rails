@@ -2,6 +2,8 @@
 
 This is a PoC application for implementing elements of Domain-Driven Design inside of a plain Ruby on Rails application.
 
+THIS IS NOT PRODUCTION-LEVEL CODE. Its purpose is to serve as a validation of ideas and a discussion starting point.
+
 ## Identified Subdomains and implemented Bounded Contexts
 
 ### DragonHunt
