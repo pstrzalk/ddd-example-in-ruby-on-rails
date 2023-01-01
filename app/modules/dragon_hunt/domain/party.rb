@@ -12,6 +12,10 @@ module DragonHunt
         self.client_id = client_id
       end
 
+      def ==(other)
+        id == other.id && client_id == other.client_id
+      end
+
       private
 
       attr_writer :id, :client_id
