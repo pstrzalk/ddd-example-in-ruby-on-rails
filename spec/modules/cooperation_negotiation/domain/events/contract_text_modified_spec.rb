@@ -1,0 +1,22 @@
+require_relative "../../../../rails_helper"
+
+module CooperationNegotiation
+  module Domain
+    module Events
+      describe ContractTextModified do
+        it 'has attributes' do
+          event = described_class.new
+          event.text = :foo
+          event.contract_id = :boo
+          event.time = :zoo
+
+          expect(event).to have_attributes(
+            text: :foo,
+            contract_id: :boo,
+            time: :zoo
+          )
+        end
+      end
+    end
+  end
+end
