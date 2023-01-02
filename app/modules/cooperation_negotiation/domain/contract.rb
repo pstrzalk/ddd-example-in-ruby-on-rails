@@ -7,7 +7,7 @@ module CooperationNegotiation
       AlreadySignedByClientError = Class.new(StandardError)
       AlreadySignedByCompanyError = Class.new(StandardError)
 
-      attr_reader :id, :client_id
+      attr_reader :id, :client_id, :text
 
       def self.prepare_draft(client_id:)
         contract = new(client_id: client_id)
@@ -81,8 +81,8 @@ module CooperationNegotiation
         dispatch_event(event)
       end
 
-      attr_writer :id, :client_id
-      attr_accessor :client_signature, :company_signature, :text
+      attr_writer :id, :client_id, :text
+      attr_accessor :client_signature, :company_signature
     end
   end
 end
