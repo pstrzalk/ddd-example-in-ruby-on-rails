@@ -1,6 +1,12 @@
 module CooperationNegotiation
   module Infrastructure
     class DbContractRepository
+      attr_reader :event_store_write
+
+      def initialize(event_store_write: ::EventStore::Write.new)
+        @event_store_write = event_store_write
+      end
+
       def of_id(id)
         db_contract = DbContract.find_by(id: id)
         return unless db_contract
@@ -17,7 +23,7 @@ module CooperationNegotiation
 
       def save(contract)
         db_contract = DbContract.find_by(id: contract.id) if contract.id
-        db_contract ||= DbContract.new
+        db_contract ||= DbContract.new(id: contract.id)
 
         db_contract.assign_attributes(
           client_id: contract.send(:client_id),
@@ -29,9 +35,10 @@ module CooperationNegotiation
         ActiveRecord::Base.transaction do
           db_contract.save!
 
-          contract.send('id=', db_contract.id)
           commit_events(contract)
         end
+
+        contract.send('id=', db_contract.id)
       end
 
       private
@@ -51,7 +58,7 @@ module CooperationNegotiation
         contract.uncommited_events.each do |event|
           event.contract_id = contract.id
 
-          ::Infrastructure::EventStore::Write.call(event)
+          @event_store_write.call(event)
         end
 
         contract.clear_uncommited_events

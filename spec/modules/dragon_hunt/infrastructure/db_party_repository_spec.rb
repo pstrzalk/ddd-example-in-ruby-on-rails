@@ -10,7 +10,7 @@ module DragonHunt
 
       describe '#of_id' do
         it 'finds a persisted entry' do
-          persisted_db_party = DbParty.create(id:, client_id:)
+          DbParty.create(id:, client_id:)
 
           party = repository.of_id(id)
 
