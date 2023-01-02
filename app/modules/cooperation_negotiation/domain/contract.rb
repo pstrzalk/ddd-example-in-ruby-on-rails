@@ -4,8 +4,8 @@ module CooperationNegotiation
       include Commons::Domain::WithEvents
 
       AlreadySignedError = Class.new(StandardError)
-      ClientSignatureAlreadyAddedError = Class.new(StandardError)
-      CompanySignatureAlreadyAddedError = Class.new(StandardError)
+      AlreadySignedByClientError = Class.new(StandardError)
+      AlreadySignedByCompanyError = Class.new(StandardError)
 
       attr_reader :id, :client_id
 
@@ -14,7 +14,7 @@ module CooperationNegotiation
 
         event = Events::ContractDraftPrepared.new
         event.client_id = client_id
-        event.time = Time.current
+        event.time = ::Clock.utc
         contract.send(:dispatch_event, event)
 
         contract
@@ -36,12 +36,20 @@ module CooperationNegotiation
         dispatch_signature_event
       end
 
+      def signed_by_client?
+        self.client_signature
+      end
+
       def sign_by_company
-        raise AlreadySignedByClientError if company_signature
+        raise AlreadySignedByCompanyError if company_signature
 
         self.company_signature = true
 
         dispatch_signature_event
+      end
+
+      def signed_by_company?
+        self.company_signature
       end
 
       def modify_text(new_text)
@@ -53,23 +61,23 @@ module CooperationNegotiation
 
         event = Events::ContractTextModified.new
         event.text = new_text
-        event.time = Time.current
+        event.time = ::Clock.utc
         dispatch_event(event)
       end
 
       private
 
       def signed?
-        client_signature && company_signature
+        signed_by_client? && signed_by_company?
       end
 
       def dispatch_signature_event
-        return unless company_signature && client_signature
+        return unless signed?
 
         event = Events::ContractSigned.new
         event.client_id = client_id
         event.text = text
-        event.time = Time.current
+        event.time = ::Clock.utc
         dispatch_event(event)
       end
 
