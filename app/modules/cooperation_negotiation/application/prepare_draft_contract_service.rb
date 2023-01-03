@@ -1,8 +1,8 @@
 module CooperationNegotiation
   module Application
     class PrepareDraftContractService
-      def initialize(repository: Infrastructure::DbContractRepository.new)
-        self.repository = repository
+      def initialize
+        self.repository = Domain::ContractRepository.get
       end
 
       def call(client_id:)

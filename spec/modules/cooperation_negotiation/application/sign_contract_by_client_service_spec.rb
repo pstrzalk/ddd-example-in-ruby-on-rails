@@ -4,7 +4,7 @@ module CooperationNegotiation
   module Application
     describe SignContractByClientService do
       let(:client_id) { '00000000-0000-0000-0000-000000000001' }
-      let(:repository) { Infrastructure::InMemoryContractRepository.new }
+      let(:repository) { Domain::ContractRepository.get }
 
       describe '.call' do
         it 'adds client signature' do
@@ -13,7 +13,7 @@ module CooperationNegotiation
 
           contract_id = contract.id
 
-          service = described_class.new(repository: repository)
+          service = described_class.new
           service.call(contract_id:)
 
           contract = repository.of_id(contract_id)

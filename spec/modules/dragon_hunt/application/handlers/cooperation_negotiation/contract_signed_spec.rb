@@ -6,16 +6,16 @@ module DragonHunt
       module CooperationNegotiation
         describe ContractSigned do
           describe '.call' do
-            it 'saves the party' do
-              id = '001'
-              client_id = '002'
+            let(:id) { '00000000-0000-0000-0000-000000000001' }
+            let(:client_id) { '00000000-0000-0000-0000-000000000002' }
 
-              repository = instance_double(Infrastructure::DbPartyRepository, save: true)
+            it 'saves the party' do
               event = ::CooperationNegotiation::Domain::Events::ContractSigned.new
               event.client_id = client_id
-              described_class.call(event, repository)
+              described_class.call(event)
 
-              expect(repository).to have_received(:save).with(Domain::Party.new(client_id:))
+              repository = Domain::PartyRepository.get
+              expect(repository.of_client_id(client_id)).to be_present
             end
           end
         end

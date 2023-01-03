@@ -1,8 +1,8 @@
 module CooperationNegotiation
   module Application
     class ModifyContractTextService
-      def initialize(repository: Infrastructure::DbContractRepository.new)
-        self.repository = repository
+      def initialize
+        self.repository = Domain::ContractRepository.get
       end
 
       def call(contract_id:, text:)
