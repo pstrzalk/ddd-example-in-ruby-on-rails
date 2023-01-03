@@ -1,8 +1,8 @@
 module CooperationNegotiation
   module Application
     class SignContractByCompanyService
-      def initialize
-        self.repository = Infrastructure::DbContractRepository.new
+      def initialize(repository: Infrastructure::DbContractRepository.new)
+        self.repository = repository
       end
 
       def call(contract_id:)
