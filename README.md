@@ -51,6 +51,19 @@ rails db:seed
 rails db:seed:replant
 ```
 
+## Testing
+
+The project uses Rspec as its testing framework. Run
+```
+rspec
+```
+to run all tests.
+
+For continues testing during development you may use Guard with
+```
+guard
+```
+
 ## Future plans
 
 - I'm thinking about adding some controllers and frontend to show that it can operate as a normal application.
