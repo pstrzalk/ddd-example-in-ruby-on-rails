@@ -5,15 +5,15 @@ module CooperationNegotiation
 
       def initialize(event_store_write: ::EventStore::Write.new)
         @event_store_write = event_store_write
-        @memory = {}
+        @@memory ||= {}
       end
 
       def of_id(id)
-        @memory[id]
+        @@memory[id]
       end
 
       def of_client_id(client_id)
-        @memory.each do |id, contract|
+        @@memory.each do |id, contract|
           return contract if contract.client_id == client_id
         end
 
@@ -25,7 +25,7 @@ module CooperationNegotiation
 
         contract.send('id=', id)
 
-        @memory[id] = contract
+        @@memory[id] = contract
         commit_events(contract)
       end
 
