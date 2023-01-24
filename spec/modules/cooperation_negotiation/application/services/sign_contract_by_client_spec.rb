@@ -1,25 +1,24 @@
-require_relative "../../../rails_helper"
+require_relative "../../../../rails_helper"
 
 module CooperationNegotiation
   module Application
     module Services
-      describe ModifyContractText do
+      describe SignContractByClient do
         let(:client_id) { '00000000-0000-0000-0000-000000000001' }
         let(:repository) { Domain::ContractRepository.get }
 
         describe '.call' do
-          it 'prepares a draft contract' do
+          it 'adds client signature' do
             contract = Domain::Contract.prepare_draft(client_id:)
             repository.save(contract)
 
             contract_id = contract.id
 
             service = described_class.new
-            service.call(contract_id:, text: 'Modified content')
+            service.call(contract_id:)
 
             contract = repository.of_id(contract_id)
-
-            expect(contract.text).to eq 'Modified content'
+            expect(contract).to be_signed_by_client
           end
         end
       end
